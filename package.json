@@ -1,6 +1,6 @@
 {
     "name": "eslint-config-johndugan",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "John Dugan's ESLint configuration.",
     "main": "index.js",
     "scripts": {
@@ -21,7 +21,7 @@
         "url": "https://github.com/johndugan/eslint-config/issues"
     },
     "homepage": "https://github.com/johndugan/eslint-config#readme",
-    "devDependencies": {
+    "dependencies": {
         "eslint": ">= 5",
         "babel-eslint": ">= 10",
         "prettier": ">= 1",
