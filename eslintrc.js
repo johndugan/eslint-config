@@ -122,4 +122,4 @@ module.exports = {
         "yoda": [1, "never"]
     }
 
-}
+};
