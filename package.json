@@ -1,0 +1,29 @@
+{
+  "name": "eslint-config-johndugan",
+  "version": "1.0.0",
+  "description": "John Dugan's ESLint configuration.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johndugan/eslint-config.git"
+  },
+  "keywords": [
+    "eslint",
+    "eslintconfig"
+  ],
+  "author": "John Dugan <john@john-dugan.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/johndugan/eslint-config/issues"
+  },
+  "homepage": "https://github.com/johndugan/eslint-config#readme",
+  "peerDependencies": {
+      "eslint": ">= 5",
+      "babel-eslint": ">= 10",
+      "prettier": ">= 1"
+  }
+}
