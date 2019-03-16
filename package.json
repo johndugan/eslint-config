@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-johndugan",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "John Dugan's ESLint configuration.",
   "main": "index.js",
   "scripts": {

@@ -1,4 +1,4 @@
-{
+module.exports = {
 
     // http://eslint.org/docs/user-guide/configuring#specifying-parser-options
     "parserOptions": {
