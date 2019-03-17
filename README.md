@@ -1,145 +1,147 @@
-# No-Sweat™ Eslint and Prettier Setup
-These are my settings for ESLint and Prettier
+# ESLint + Prettier Setup for VS Code
 
-You might like them - or you might not. Don't worry you can always change them.
+Below is my setup for ESLint and Prettier on VS Code.
 
 ## What it does
+
 * Lints JavaScript based on the latest standards
 * Fixes issues and formatting errors with Prettier
 * Lints + Fixes inside of html script tags
-* Lints + Fixes React via eslint-config-airbnb
 * You can see all the [rules here](https://github.com/johndugan/eslint-config/blob/master/.eslintrc.js) - these generally abide by the code written in my courses. You are very welcome to overwrite any of these settings, or just fork the entire thing to create your own.
 
-## Installing
+## ESLint Installation and Setup
 
-You can use eslint globally and/or locally per project.
+* Install the [ESLint extension for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) by Dirk Baemer.
+* You **do not** need the Pretter extension for VS Code. My setup runs Prettier through ESLint as a plugin.
+* Install NPM packages globally: `npm install --global eslint eslint-config-johndugan eslint-config-prettier eslint-plugin-prettier babel-eslint`
 
-It's usually best to install this locally once per project, that way you can have project specific settings as well as sync those settings with others working on your project via git.
+_A note on global vs local installation..._
 
-I also install globally so that any project or rogue JS file I write will have linting and formatting applied without having to go through the setup. You might disagree and that is okay, just don't do it then 😃.
+You can implement eslint globally and/or locally per project. I recommend both. If you only install it locally/per project, then you won't get linting without some setup. I find it convenient to have linting setup regardless. That way, I can get right to coding and worry about project-specific eslint configuration later.
 
+### VS Code Settings for ESLint
 
-## Local / Per Project Install
-
-1. If you don't already have a `package.json` file, create one with `npm init`.
-
-2. Then we need to install everything needed by the config:
+I know that VS Code has shipped with a settings GUI for some time. But I've been on VS Code for a while, and still prefer updating the JSON settings object. You can reach by going to `Preferences > Settings`, then clicking the `{}` icon in the top right. Below are my settings relevant to ESLint.
 
 ```
-npx install-peerdeps --dev eslint-config-johndugan
-```
+// ESLint
 
-3. You can see in your package.json there are now a big list of devDependencies.
+"eslint.enable": true,
+"eslint.autoFixOnSave": true,
+"eslint.validate": [
+    {
+        "language": "javascript",
+        "autoFix": true
+    },
+    {
+        "language": "html",
+        "autoFix": true
+    },
+    {
+        "language": "vue",
+        "autoFix": true
+    },
+    {
+        "language": "javascriptreact",
+        "autoFix": true
+    }
+],
 
-4. Create a `.eslintrc` file in the root of your project's directory (it should live where package.json does). Your `.eslintrc` file should look like this:
+// Prettier
+/*
+    IMPORTANT: If you have the Prettier extension enabled for other languages like
+    CSS and HTML, turn it off for JS since we are doing it through ESLint already.
+*/
+"prettier.disableLanguages": ["javascript", "javascriptreact", "vue"],
 
-```json
-{
-  "extends": [
-    "johndugan"
-  ]
-}
-```
+// Language-Specific Settings
 
-Tip: You can alternatively put this object in your `package.json` under the property `"eslintConfig":`. This makes one less file in your project.
-
-5. You can add two scripts to your package.json to lint and/or fix:
-
-```json
-"scripts": {
-  "lint": "eslint .",
-  "lint:fix": "eslint . --fix"
+"[html]": {
+    "editor.formatOnSave": true
 },
-```
-
-6. Now you can manually lint your code by running `npm run lint` and fix all fixable issues with `npm run lint:fix`. You probably want your editor to do this though.
-
-## Global Install
-
-1. First install everything needed:
-
-```
-npx install-peerdeps --global eslint-config-johndugan
-```
-(**note:** npx is not a spelling mistake of **npm**. `npx` comes with when `node` and `npm` are installed and makes script running easier 😃)
-
-2. Then you need to make a global `.eslintrc` file:
-
-ESLint will look for one in your home directory
-
-* `~/.eslintrc` for mac
-* `C:\Users\username\.eslintrc` for windows
-
-In your `.eslintrc` file, it should look like this:
-
-```json
-{
-  "extends": [
-    "johndugan"
-  ]
+"[scss]": {
+    "editor.formatOnSave": true
+},
+"[javascript]": {
+    "editor.formatOnSave": false, // `eslint.autoFixOnSave` does formatting
+    "editor.rulers": [80] // equal to `prettier.printWidth`
+},
+"[vue]": {
+    "editor.formatOnSave": false, // `eslint.autoFixOnSave` does formatting
+    "editor.rulers": [80] // equal to `prettier.printWidth`
+},
+"[json]": {
+    "editor.formatOnSave": true
+},
+"[sql]": {
+    "editor.formatOnSave": true
+},
+"[xml]": {
+    "editor.formatOnSave": true
 }
 ```
 
-3. To use from the CLI, you can now run `eslint .` or configure your editor as we show next.
+**At this point, ESLint is up and running in VS Code!**
 
-## Settings
+## Prettier Integration and ESLint Global Defaults Setup
 
-If you'd like to overwrite eslint or prettier settings, you can add the rules in your `.eslintrc` file. The [ESLint rules](https://eslint.org/docs/rules/) go directly under `"rules"` while [prettier options](https://prettier.io/docs/en/options.html) go under `"prettier/prettier"`. Note that prettier rules overwrite anything in my config (trailing comma, and single quote), so you'll need to include those as well.
+Create an `.eslintrc` configuration file in your user's home directory.
 
-```js
+* `~/.eslintrc` for Mac and Linux
+* `C:\Users\username\.eslintrc` for Windows
+
+Inside the `.eslintrc` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
+
+```
 {
-  "extends": [
-    "johndugan"
-  ],
-  "rules": {
-    "no-console": 2,
-    "prettier/prettier": [
-      "error",
-      {
-        "trailingComma": "es5",
-        "singleQuote": true,
-        "printWidth": 120,
-        "tabWidth": 8,
-      }
-    ]
-  }
+    // http://eslint.org/docs/user-guide/configuring#extending-configuration-files
+    /*
+        `prettier` Turns off all rules that are unnecessary or might conflict with Prettier.
+     */
+    "extends": ["johndugan", "prettier"],
+
+    // https://eslint.org/docs/user-guide/configuring#configuring-plugins
+    /*
+        `prettier` Runs Prettier as an ESLint rule and reports differences as individual ESLint issues.
+     */
+    "plugins": ["prettier"],
+
+    "rules": {
+        /*
+            1. Render prettier formatting errors as warnings in ESLint.
+            2. Prettier default settings object in case there is no .prettierrc.
+            3. If there is a .prettierrc configuration file, use it.
+         */
+        "prettier/prettier": [
+            "warn",
+            {
+                "printWidth": 80,
+                "tabWidth": 4,
+                "useTabs": false,
+                "semi": true,
+                "singleQuote": true,
+                "jsxSingleQuote": false,
+                "trailingComma": "none",
+                "bracketSpacing": false,
+                "jsxBracketSameLine": false,
+                "arrowParens": "always",
+            },
+            {
+                "usePrettierrc": true
+            }
+        ]
+    }
 }
 ```
 
-## With VS Code
+**At this point, Prettier has been integrated with ESLint, and both ESLint and Prettier have your custom _global_ configuration!**
 
-You should read this entire thing. Serious!
+## Per Project Setup
 
-Once you have done one, or both, of the above installs. You probably want your editor to lint and fix for you. Here are the instructions for VS Code:
+I assume you're working on a project that has an exising `package.json` file. If not, `npm init`. Beyond that, the local/per project setup is very similar to the global setup.
 
-1. Install the [ESLint package](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-2. Now we need to setup some VS Code settings via `Code/File` → `Preferences` → `Settings`. It's easier to enter these settings while editing the `settings.json` file, so click the `{}` icon in the top right corner:
-  ```js
-  // These are all my auto-save configs
-  "editor.formatOnSave": true,
-  // turn it off for JS and JSX, we will do this via eslint
-  "[javascript]": {
-    "editor.formatOnSave": false
-  },
-  "[javascriptreact]": {
-    "editor.formatOnSave": false
-  },
-  // tell the ESLint plugin to run on save
-  "eslint.autoFixOnSave": true,
-  // Optional BUT IMPORTANT: If you have the prettier extension enabled for other languages like CSS and HTML, turn it off for JS since we are doing it through Eslint already
-  "prettier.disableLanguages": ["javascript", "javascriptreact"],
-  ```
+1. Install the NPM packages locally `npm install --save-dev eslint eslint-config-johndugan eslint-config-prettier eslint-plugin-prettier babel-eslint`
 
-## 🤬🤬🤬🤬 ITS NOT WORKING
+2. Add your project-level ESLint configuration to a `.eslintrc` file in the project root. Use the example above as a blueprint.
 
-start fresh. Sometimes global modules can goof you up. This will remove them all.
-
-```
-npm remove --global eslint-config-johndugan babel-eslint eslint eslint-config-prettier eslint-config-airbnb eslint-plugin-html eslint-plugin-prettier eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react prettier
-```
-
-To do the above for local, omit the `--global` flag.
-
-Then if you are using a local install, remove your `package-lock.json` file and delete the `node_modules/` directory.
-
-Then follow the above instructions again.
+3. Add your project-level Prettier configuration to a `.prettierrc` file in the project root. Read about the [configuration file](https://prettier.io/docs/en/configuration.html) and [configuration options](https://prettier.io/docs/en/options.html) in the Prettier docs.
