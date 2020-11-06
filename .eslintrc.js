@@ -3,11 +3,11 @@ module.exports = {
     extends: ['eslint:recommended'],
 
     // https://eslint.org/docs/user-guide/configuring#specifying-parser
-    parser: 'babel-eslint',
+    parser: '@babel/eslint-parser',
 
     // http://eslint.org/docs/user-guide/configuring#specifying-parser-options
     parserOptions: {
-        ecmaVersion: 2018
+        ecmaVersion: 2021
     },
 
     // http://eslint.org/docs/user-guide/configuring#specifying-environments

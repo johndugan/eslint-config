@@ -4,91 +4,32 @@ Below is my setup for ESLint and Prettier on VS Code.
 
 ## What it does
 
-* Lints JavaScript based on the latest standards
-* Fixes issues and formatting errors with Prettier
-* Lints + Fixes inside of html script tags
-* You can see all the [rules here](https://github.com/johndugan/eslint-config/blob/master/.eslintrc.js) - these generally abide by the code written in my courses. You are very welcome to overwrite any of these settings, or just fork the entire thing to create your own.
+-   Lints JavaScript based on the latest standards
+-   Fixes issues and formatting errors with Prettier
+-   Lints + Fixes inside of html script tags
+-   You can see all the [rules here](https://github.com/johndugan/eslint-config/blob/master/.eslintrc.js) - these generally abide by the code written in my courses. You are very welcome to overwrite any of these settings, or just fork the entire thing to create your own.
 
 ## ESLint Installation and Setup
 
-* Install the [ESLint extension for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) by Dirk Baemer.
-* You **do not** need the Pretter extension for VS Code. My setup runs Prettier through ESLint as a plugin.
-* Install NPM packages globally: `npm install --global eslint eslint-config-johndugan eslint-config-prettier eslint-plugin-prettier babel-eslint`
+1.  Install the [ESLint extension for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) by Dirk Baemer.
+2.  Install NPM packages globally: `npm install --global eslint @johndugan/eslint-config @babel/core @babel/preset-env @babel/eslint-parser`
 
 _A note on global vs local installation..._
 
 You can implement eslint globally and/or locally per project. I recommend both. If you only install it locally/per project, then you won't get linting without some setup. I find it convenient to have linting setup regardless. That way, I can get right to coding and worry about project-specific eslint configuration later.
 
-### VS Code Settings for ESLint
-
-I know that VS Code has shipped with a settings GUI for some time. But I've been on VS Code for a while, and still prefer updating the JSON settings object. You can reach by going to `Preferences > Settings`, then clicking the `{}` icon in the top right. Below are my settings relevant to ESLint.
-
-```
-// ESLint
-
-"eslint.enable": true,
-"eslint.autoFixOnSave": true,
-"eslint.validate": [
-    {
-        "language": "javascript",
-        "autoFix": true
-    },
-    {
-        "language": "html",
-        "autoFix": true
-    },
-    {
-        "language": "vue",
-        "autoFix": true
-    },
-    {
-        "language": "javascriptreact",
-        "autoFix": true
-    }
-],
-
-// Prettier
-/*
-    IMPORTANT: If you have the Prettier extension enabled for other languages like
-    CSS and HTML, turn it off for JS since we are doing it through ESLint already.
-*/
-"prettier.disableLanguages": ["javascript", "javascriptreact", "vue"],
-
-// Language-Specific Settings
-
-"[html]": {
-    "editor.formatOnSave": true
-},
-"[scss]": {
-    "editor.formatOnSave": true
-},
-"[javascript]": {
-    "editor.formatOnSave": false, // `eslint.autoFixOnSave` does formatting
-    "editor.rulers": [80] // equal to `prettier.printWidth`
-},
-"[vue]": {
-    "editor.formatOnSave": false, // `eslint.autoFixOnSave` does formatting
-    "editor.rulers": [80] // equal to `prettier.printWidth`
-},
-"[json]": {
-    "editor.formatOnSave": true
-},
-"[sql]": {
-    "editor.formatOnSave": true
-},
-"[xml]": {
-    "editor.formatOnSave": true
-}
-```
-
 **At this point, ESLint is up and running in VS Code!**
 
 ## Prettier Integration and ESLint Global Defaults Setup
 
-Create an `.eslintrc` configuration file in your user's home directory.
+**NOTE:** You _do not_ need the Pretter extension for VS Code. My setup runs Prettier through ESLint as a plugin.
 
-* `~/.eslintrc` for Mac and Linux
-* `C:\Users\username\.eslintrc` for Windows
+1. Create an `.eslintrc` configuration file in your user's home directory.
+
+-   `~/.eslintrc` for Mac, Linux, and WSL
+-   `C:\Users\username\.eslintrc` for Windows
+
+2. Install NPM packages globally: `npm install --global eslint-config-prettier eslint-plugin-prettier`
 
 Inside the `.eslintrc` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
 
@@ -110,21 +51,21 @@ Inside the `.eslintrc` file, create a json object similar to the one below. Any 
         /*
             1. Render prettier formatting errors as warnings in ESLint.
             2. Prettier default settings object in case there is no .prettierrc.
-            3. If there is a .prettierrc configuration file, use it.
+            3. If there is a .prettierrc configuration file, use it. (recommended)
          */
         "prettier/prettier": [
             "warn",
             {
+                "arrowParens": "always",
+                "bracketSpacing": false,
+                "endOfLine": "lf",
+                "jsxSingleQuote": false,
                 "printWidth": 80,
-                "tabWidth": 4,
-                "useTabs": false,
                 "semi": true,
                 "singleQuote": true,
-                "jsxSingleQuote": false,
-                "trailingComma": "none",
-                "bracketSpacing": false,
-                "jsxBracketSameLine": false,
-                "arrowParens": "always",
+                "tabWidth": 4,
+                "useTabs": false,
+                "trailingComma": "none"
             },
             {
                 "usePrettierrc": true
@@ -136,11 +77,26 @@ Inside the `.eslintrc` file, create a json object similar to the one below. Any 
 
 **At this point, Prettier has been integrated with ESLint, and both ESLint and Prettier have your custom _global_ configuration!**
 
+### VS Code Settings for ESLint & Prettier
+
+I know that VS Code has shipped with a settings GUI for some time. But I've been on VS Code for a while, and still prefer updating the JSON settings object. You can reach by going to `Preferences > Settings`, then clicking the `{}` icon in the top right. Below are my settings relevant to ESLint.
+
+```
+{
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true // applies to *all* linting & formatting providers
+        // "source.fixAll.eslint": true // applies only to eslint
+    },
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true
+}
+```
+
 ## Per Project Setup
 
 I assume you're working on a project that has an exising `package.json` file. If not, `npm init`. Beyond that, the local/per project setup is very similar to the global setup.
 
-1. Install the NPM packages locally `npm install --save-dev eslint eslint-config-johndugan eslint-config-prettier eslint-plugin-prettier babel-eslint`
+1. Install the NPM packages locally `npm install --save-dev eslint @johndugan/eslint-config @babel/core @babel/preset-env @babel/eslint-parser eslint-config-prettier eslint-plugin-prettier`
 
 2. Add your project-level ESLint configuration to a `.eslintrc` file in the project root. Use the example above as a blueprint.
 
