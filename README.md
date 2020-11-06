@@ -39,7 +39,7 @@ Inside the `.eslintrc` file, create a json object similar to the one below. Any 
     /*
         `prettier` Turns off all rules that are unnecessary or might conflict with Prettier.
      */
-    "extends": ["johndugan", "prettier"],
+    "extends": ["@johndugan", "prettier"],
 
     // https://eslint.org/docs/user-guide/configuring#configuring-plugins
     /*
