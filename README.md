@@ -29,7 +29,12 @@ You can implement eslint globally and/or locally per project. I recommend both. 
 -   `~/.eslintrc` for Mac, Linux, and WSL
 -   `C:\Users\username\.eslintrc` for Windows
 
-2. Install NPM packages globally: `npm install --global eslint-config-prettier eslint-plugin-prettier`
+2. Create an `.babelrc` configuration file in your user's home directory.
+
+-   `~/.babelrc` for Mac, Linux, and WSL
+-   `C:\Users\username\.babelrc` for Windows
+
+3. Install NPM packages globally: `npm install --global eslint-config-prettier eslint-plugin-prettier`
 
 Inside the `.eslintrc` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
 
@@ -75,6 +80,14 @@ Inside the `.eslintrc` file, create a json object similar to the one below. Any 
 }
 ```
 
+Inside the `.babelrc` file, create a json object similar to the one below. Any Babel rules you want to add or overide are defined in the object.
+
+```
+{
+    "presets": ["@babel/preset-env"]
+}
+```
+
 **At this point, Prettier has been integrated with ESLint, and both ESLint and Prettier have your custom _global_ configuration!**
 
 ### VS Code Settings for ESLint & Prettier
@@ -100,4 +113,6 @@ I assume you're working on a project that has an exising `package.json` file. If
 
 2. Add your project-level ESLint configuration to a `.eslintrc` file in the project root. Use the example above as a blueprint.
 
-3. Add your project-level Prettier configuration to a `.prettierrc` file in the project root. Read about the [configuration file](https://prettier.io/docs/en/configuration.html) and [configuration options](https://prettier.io/docs/en/options.html) in the Prettier docs.
+3. Add your project-level ESLint configuration to a `.babelrc` file in the project root. Use the example above as a blueprint.
+
+4. Add your project-level Prettier configuration to a `.prettierrc` file in the project root. Read about the [configuration file](https://prettier.io/docs/en/configuration.html) and [configuration options](https://prettier.io/docs/en/options.html) in the Prettier docs.
