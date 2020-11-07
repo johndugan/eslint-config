@@ -7,7 +7,7 @@ module.exports = {
 
     // http://eslint.org/docs/user-guide/configuring#specifying-parser-options
     parserOptions: {
-        ecmaVersion: 2021
+        requireConfigFile: false
     },
 
     // http://eslint.org/docs/user-guide/configuring#specifying-environments
