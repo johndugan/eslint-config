@@ -7,7 +7,7 @@ module.exports = {
 
     // http://eslint.org/docs/user-guide/configuring#specifying-parser-options
     parserOptions: {
-        requireConfigFile: false
+        requireConfigFile: false // https://github.com/babel/babel/tree/main/eslint/babel-eslint-parser#additional-parser-configuration
     },
 
     // http://eslint.org/docs/user-guide/configuring#specifying-environments
@@ -27,21 +27,24 @@ module.exports = {
         'comma-spacing': [1, {before: false, after: true}],
         'consistent-return': 1,
         'constructor-super': 2, // es6
-        'curly': [2, 'all'],
+        curly: [2, 'all'],
         'default-case': 1,
         'dot-notation': [1, {allowKeywords: true}],
         'eol-last': 1,
-        'eqeqeq': 1,
-        'indent': [1, 4, {SwitchCase: 1}],
+        eqeqeq: 1,
+        indent: [1, 4, {SwitchCase: 1}],
         'key-spacing': [1, {beforeColon: false, afterColon: true}],
         'keyword-spacing': [1, {before: true, after: true}],
         'linebreak-style': [1, 'unix'],
-        'new-cap': [2, {
-            newIsCap: true,
-            capIsNew: true,
-            newIsCapExceptions: [],
-            capIsNewExceptions: []
-        }],
+        'new-cap': [
+            2,
+            {
+                newIsCap: true,
+                capIsNew: true,
+                newIsCapExceptions: [],
+                capIsNewExceptions: []
+            }
+        ],
         'new-parens': 2,
         'no-case-declarations': 2,
         'no-class-assign': 2, // es6
@@ -73,11 +76,14 @@ module.exports = {
         'no-self-assign': 1,
         'no-self-compare': 1,
         'no-sequences': 2,
-        'no-shadow': [2, {
-            builtinGlobals: true,
-            hoist: 'all',
-            allow: ['$', 'Plugin', 'self']
-        }],
+        'no-shadow': [
+            2,
+            {
+                builtinGlobals: true,
+                hoist: 'all',
+                allow: ['$', 'Plugin', 'self']
+            }
+        ],
         'no-shadow-restricted-names': 2,
         'no-spaced-func': 2,
         'no-this-before-super': 1, // es6
@@ -88,7 +94,10 @@ module.exports = {
         'no-undefined': 2,
         'no-unneeded-ternary': 1,
         'no-unexpected-multiline': 2,
-        'no-unused-expressions': [2, {allowShortCircuit: false, allowTernary: true}],
+        'no-unused-expressions': [
+            2,
+            {allowShortCircuit: false, allowTernary: true}
+        ],
         'no-unused-vars': [2, {vars: 'all', args: 'after-used'}],
         'no-use-before-define': [2, 'nofunc'], // exception for function declarations
         'no-useless-call': 1,
@@ -100,12 +109,15 @@ module.exports = {
         'prefer-arrow-callback': 1, // es6
         'prefer-spread': 1, // es6
         'prefer-template': 1, // es6
-        'quotes': [1, 'single'],
-        'radix': [2, 'as-needed'],
-        'semi': [2, 'always'],
+        quotes: [1, 'single'],
+        radix: [2, 'as-needed'],
+        semi: [2, 'always'],
         'semi-spacing': [1, {before: false, after: true}],
         'space-before-blocks': [1, {functions: 'always', keywords: 'always'}],
-        'space-before-function-paren': [1, {anonymous: 'never', named: 'never'}],
+        'space-before-function-paren': [
+            1,
+            {anonymous: 'never', named: 'never'}
+        ],
         'space-in-parens': [1, 'never'],
         // "space-infix-ops": 1, // flags `'str'+'ing'`
         'space-unary-ops': [1, {words: true, nonwords: false}],
@@ -113,6 +125,6 @@ module.exports = {
         'vars-on-top': 1,
         'wrap-iife': [1, 'outside'],
         'wrap-regex': 1,
-        'yoda': [1, 'never']
+        yoda: [1, 'never']
     }
 };
