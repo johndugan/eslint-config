@@ -13,7 +13,8 @@ module.exports = {
     // http://eslint.org/docs/user-guide/configuring#specifying-environments
     env: {
         node: true,
-        browser: true
+        browser: true,
+        es2021: true
     },
 
     // http://eslint.org/docs/rules/
