@@ -105,7 +105,7 @@ module.exports = {
         'semi': [2, 'always'],
         'semi-spacing': [1, {before: false, after: true}],
         'space-before-blocks': [1, {functions: 'always', keywords: 'always'}],
-        'space-before-function-paren': [1, {anonymous: 'never', named: 'never'}],
+        'space-before-function-paren': [1, {anonymous: 'always', named: 'always', asyncArrow: 'always'}], // match Prettier convention
         'space-in-parens': [1, 'never'],
         // "space-infix-ops": 1, // flags `'str'+'ing'`
         'space-unary-ops': [1, {words: true, nonwords: false}],
