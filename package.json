@@ -22,7 +22,7 @@
     },
     "homepage": "https://github.com/johndugan/eslint-config#readme",
     "devDependencies": {
-        "@babel/core": "^7.12.3",
+        "@babel/core": "^7.15.5",
         "@babel/eslint-parser": "^7.12.1",
         "@babel/preset-env": "^7.12.1"
     },
