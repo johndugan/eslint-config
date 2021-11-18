@@ -1,6 +1,6 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "2.4.0",
+    "version": "2.4.1",
     "description": "John Dugan's ESLint configuration.",
     "main": "index.js",
     "scripts": {
@@ -22,11 +22,6 @@
     },
     "homepage": "https://github.com/johndugan/eslint-config#readme",
     "dependencies": {
-        "@babel/core": "^7.15.5",
-        "@babel/eslint-parser": "^7.12.1",
-        "@babel/preset-env": "^7.12.1"
-    },
-    "peerDependencies": {
         "eslint": ">= 7",
         "@babel/core": ">= 7",
         "@babel/preset-env": ">= 7",
