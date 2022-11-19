@@ -101,7 +101,7 @@ module.exports = {
         'prefer-arrow-callback': 'warn', // es6
         'prefer-spread': 'warn', // es6
         'prefer-template': 'warn', // es6
-        'quotes': ['warn', 'single', {'avoidEscape': true}],
+        'quotes': ['warn', 'single', {avoidEscape: true}],
         'radix': ['error', 'as-needed'],
         'semi': ['error', 'always'],
         'semi-spacing': ['warn', {before: false, after: true}],
