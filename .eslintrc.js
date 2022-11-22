@@ -33,7 +33,7 @@ module.exports = {
         'dot-notation': ['warn', {allowKeywords: true}],
         'eol-last': 'warn',
         'eqeqeq': 'warn',
-        'indent': ['warn', 4, {SwitchCase: 'warn'}],
+        'indent': ['warn', 4, {SwitchCase: 1}],
         'key-spacing': ['warn', {beforeColon: false, afterColon: true}],
         'keyword-spacing': ['warn', {before: true, after: true}],
         'linebreak-style': ['warn', 'unix'],
