@@ -24,19 +24,19 @@ You can implement eslint globally and/or locally per project. I recommend both. 
 
 **NOTE:** You _do not_ need the Pretter extension for VS Code. My setup runs Prettier through ESLint as a plugin.
 
-1. Create an `.eslintrc` configuration file in your user's home directory.
+1. Create an `.eslintrc.json` configuration file in your user's home directory.
 
--   `~/.eslintrc` for Mac, Linux, and WSL
--   `C:\Users\username\.eslintrc` for Windows
+-   `~/.eslintrc.json` for Mac, Linux, and WSL
+-   `C:\Users\username\.eslintrc.json` for Windows
 
-2. Create an `.babelrc` configuration file in your user's home directory.
+2. Create an `.babelrc.json` configuration file in your user's home directory.
 
--   `~/.babelrc` for Mac, Linux, and WSL
--   `C:\Users\username\.babelrc` for Windows
+-   `~/.babelrc.json` for Mac, Linux, and WSL
+-   `C:\Users\username\.babelrc.json` for Windows
 
 3. Install NPM packages globally: `npm install --global eslint-config-prettier eslint-plugin-prettier`
 
-Inside the `.eslintrc` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
+Inside the `.eslintrc.json` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
 
 ```
 {
@@ -80,7 +80,7 @@ Inside the `.eslintrc` file, create a json object similar to the one below. Any 
 }
 ```
 
-Inside the `.babelrc` file, create a json object similar to the one below. Any Babel rules you want to add or overide are defined in the object.
+Inside the `.babelrc.json` file, create a json object similar to the one below. Any Babel rules you want to add or overide are defined in the object.
 
 ```
 {
@@ -111,8 +111,8 @@ I assume you're working on a project that has an exising `package.json` file. If
 
 1. Install the NPM packages locally `npm install --save-dev eslint @johndugan/eslint-config @babel/core @babel/preset-env @babel/eslint-parser eslint-config-prettier eslint-plugin-prettier`
 
-2. Add your project-level ESLint configuration to a `.eslintrc` file in the project root. Use the example above as a blueprint.
+2. Add your project-level ESLint configuration to a `.eslintrc.json` file in the project root. Use the example above as a blueprint.
 
-3. Add your project-level ESLint configuration to a `.babelrc` file in the project root. Use the example above as a blueprint.
+3. Add your project-level ESLint configuration to a `.babelrc.json` file in the project root. Use the example above as a blueprint.
 
 4. Add your project-level Prettier configuration to a `.prettierrc` file in the project root. Read about the [configuration file](https://prettier.io/docs/en/configuration.html) and [configuration options](https://prettier.io/docs/en/options.html) in the Prettier docs.

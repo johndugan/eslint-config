@@ -19,15 +19,15 @@ module.exports = {
 
     // http://eslint.org/docs/rules/
     rules: {
-        'arrow-body-style': ['warn', 'as-needed'], // es6
-        'arrow-parens': ['error', 'always'], // es6
-        'arrow-spacing': ['warn', {before: true, after: true}], // es6
+        'arrow-body-style': ['warn', 'as-needed'],
+        'arrow-parens': ['error', 'always'],
+        'arrow-spacing': ['warn', {before: true, after: true}],
         'block-scoped-var': 'error',
         'brace-style': ['warn', '1tbs', {allowSingleLine: true}],
         'comma-dangle': ['warn', 'never'],
         'comma-spacing': ['warn', {before: false, after: true}],
         'consistent-return': 'warn',
-        'constructor-super': 'error', // es6
+        'constructor-super': 'error',
         'curly': ['error', 'all'],
         'default-case': 'warn',
         'dot-notation': ['warn', {allowKeywords: true}],
@@ -45,13 +45,13 @@ module.exports = {
         }],
         'new-parens': 'error',
         'no-case-declarations': 'error',
-        'no-class-assign': 'error', // es6
-        'no-confusing-arrow': ['error', {allowParens: true}], // es6
+        'no-class-assign': 'error',
+        'no-confusing-arrow': ['error', {allowParens: true}],
         'no-console': 'warn',
-        'no-const-assign': 'error', // es6
+        'no-const-assign': 'error',
         'no-constant-condition': 'error',
         'no-div-regex': 'error',
-        'no-dupe-class-members': 'error', // es6
+        'no-dupe-class-members': 'error',
         'no-else-return': 'error',
         'no-empty-pattern': 'error',
         'no-extend-native': 'error',
@@ -81,7 +81,7 @@ module.exports = {
         }],
         'no-shadow-restricted-names': 'error',
         'no-spaced-func': 'error',
-        'no-this-before-super': 'warn', // es6
+        'no-this-before-super': 'warn',
         'no-throw-literal': 'error',
         'no-trailing-spaces': 'warn',
         'no-undef': 'error',
@@ -97,12 +97,14 @@ module.exports = {
         'no-void': 'error',
         'no-with': 'error',
         'object-curly-spacing': ['warn', 'never'],
-        'object-shorthand': ['warn', 'never'], // es6
-        'prefer-arrow-callback': 'warn', // es6
-        'prefer-spread': 'warn', // es6
-        'prefer-template': 'warn', // es6
+        'object-shorthand': ['warn', 'never'],
+        'prefer-arrow-callback': 'warn',
+        'prefer-spread': 'warn',
+        'prefer-template': 'warn',
         'quotes': ['warn', 'single', {avoidEscape: true}],
         'radix': ['error', 'as-needed'],
+        'require-await': 'error',
+        'require-yield': 'error',
         'semi': ['error', 'always'],
         'semi-spacing': ['warn', {before: false, after: true}],
         'space-before-blocks': ['warn', {functions: 'always', keywords: 'always'}],
