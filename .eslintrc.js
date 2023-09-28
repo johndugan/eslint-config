@@ -56,7 +56,7 @@ module.exports = {
         'no-empty-pattern': 'error',
         'no-extend-native': 'error',
         'no-extra-bind': 'error',
-        'no-extra-parens': ['warn', 'all'],
+        'no-extra-parens': ['warn', 'functions'],
         'no-fallthrough': 'warn',
         'no-iterator': 'error',
         'no-lone-blocks': 'error',
@@ -108,7 +108,7 @@ module.exports = {
         'semi': ['error', 'always'],
         'semi-spacing': ['warn', {before: false, after: true}],
         'space-before-blocks': ['warn', {functions: 'always', keywords: 'always'}],
-        'space-before-function-paren': ['warn', {anonymous: 'never', named: 'never', asyncArrow: 'always'}], // match Prettier convention
+        'space-before-function-paren': 'off', // Prettier handles this
         'space-in-parens': ['warn', 'never'],
         // "space-infix-ops": 'warn', // flags `'str'+'ing'`
         'space-unary-ops': ['warn', {words: true, nonwords: false}],
