@@ -1,118 +1,243 @@
-# ESLint + Prettier Setup for VS Code
+# ESLint Configuration for ESLint 9.x
 
-Below is my setup for ESLint and Prettier on VS Code.
+John Dugan's ESLint configuration with flat config format support for ESLint 9.x.
 
 ## What it does
 
--   Lints JavaScript based on the latest standards
--   Fixes issues and formatting errors with Prettier
--   Lints + Fixes inside of html script tags
--   You can see all the [rules here](https://github.com/johndugan/eslint-config/blob/master/.eslintrc.js) - these generally abide by the code written in my courses. You are very welcome to overwrite any of these settings, or just fork the entire thing to create your own.
+- Lints JavaScript based on the latest ECMAScript standards
+- Provides environment-specific configurations (Node.js, Browser, Universal)
+- Includes comprehensive rules for code style and best practices
+- Provides proper globals for each environment without conflicts
+- Ignores underscore-prefixed unused variables
+- Uses ESLint's modern built-in parser (Espree) for maximum compatibility
+- Supports all ES2025+ features including top-level await
 
-## ESLint Installation and Setup
+## Features
 
-1.  Install the [ESLint extension for VS Code](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) by Dirk Baemer.
-2.  Install NPM packages globally: `npm install --global eslint @johndugan/eslint-config @babel/core @babel/preset-env @babel/eslint-parser`
+- **ESLint 9.x Compatible**: Uses the new flat config format
+- **Environment-Specific**: Node.js, Browser, and Universal configurations
+- **Dual Module Support**: Works with both ESM and CommonJS projects
+- **Smart Globals**: Right globals for each environment, no conflicts
+- **Flexible Unused Variables**: Ignores underscore-prefixed variables
+- **Modern JavaScript**: Full support for latest ECMAScript features
+- **TypeScript Ready**: Can be easily extended for TypeScript projects
 
-_A note on global vs local installation..._
+## Installation
 
-You can implement eslint globally and/or locally per project. I recommend both. If you only install it locally/per project, then you won't get linting without some setup. I find it convenient to have linting setup regardless. That way, I can get right to coding and worry about project-specific eslint configuration later.
+### For ESLint 9.x (v3.x)
 
-**At this point, ESLint is up and running in VS Code!**
-
-## Prettier Integration and ESLint Global Defaults Setup
-
-**NOTE:** You _do not_ need the Pretter extension for VS Code. My setup runs Prettier through ESLint as a plugin.
-
-1. Create an `.eslintrc.json` configuration file in your user's home directory.
-
--   `~/.eslintrc.json` for Mac, Linux, and WSL
--   `C:\Users\username\.eslintrc.json` for Windows
-
-2. Create an `.babelrc.json` configuration file in your user's home directory.
-
--   `~/.babelrc.json` for Mac, Linux, and WSL
--   `C:\Users\username\.babelrc.json` for Windows
-
-3. Install NPM packages globally: `npm install --global eslint-config-prettier eslint-plugin-prettier`
-
-Inside the `.eslintrc.json` file, create a json object similar to the one below. Any ESLint rules you want to add or overide from my `eslint-config-johndugan` configuration are defined in the `rules` object.
-
+```bash
+npm install --save-dev eslint@^9.0.0 @johndugan/eslint-config@^3.0.0
 ```
-{
-    // http://eslint.org/docs/user-guide/configuring#extending-configuration-files
-    /*
-        `prettier` Turns off all rules that are unnecessary or might conflict with Prettier.
-     */
-    "extends": ["@johndugan", "prettier"],
 
-    // https://eslint.org/docs/user-guide/configuring#configuring-plugins
-    /*
-        `prettier` Runs Prettier as an ESLint rule and reports differences as individual ESLint issues.
-     */
-    "plugins": ["prettier"],
+No additional peer dependencies are required! This configuration uses ESLint's built-in parser which supports all modern JavaScript features.
 
-    "rules": {
-        /*
-            1. Render prettier formatting errors as warnings in ESLint.
-            2. Prettier default settings object in case there is no .prettierrc.
-            3. If there is a .prettierrc configuration file, use it. (recommended)
-         */
-        "prettier/prettier": [
-            "warn",
-            {
-                "arrowParens": "always",
-                "bracketSpacing": false,
-                "endOfLine": "lf",
-                "jsxSingleQuote": false,
-                "printWidth": 80,
-                "semi": true,
-                "singleQuote": true,
-                "tabWidth": 4,
-                "useTabs": false,
-                "trailingComma": "none"
-            },
-            {
-                "usePrettierrc": true
-            }
-        ]
+## Usage
+
+### Universal Configuration (Default)
+
+For projects that run in both Node.js and browser environments:
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config';
+
+export default johnduganConfig;
+```
+
+### Node.js Applications
+
+For Node.js-only applications (CLI tools, servers, etc.):
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config/node';
+
+export default johnduganConfig;
+```
+
+### Browser Applications
+
+For browser-only applications (React, Vue, vanilla JS):
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config/browser';
+
+export default johnduganConfig;
+```
+
+### CommonJS Projects
+
+For CommonJS projects, use the `.cjs` versions:
+
+```javascript
+const johnduganConfig = require('@johndugan/eslint-config');
+// or
+const johnduganConfig = require('@johndugan/eslint-config/node');
+// or
+const johnduganConfig = require('@johndugan/eslint-config/browser');
+
+module.exports = johnduganConfig;
+```
+
+### With Custom Overrides
+
+You can still add custom overrides to any configuration:
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config/node';
+
+export default [
+    ...johnduganConfig,
+    {
+        files: ['**/*.test.js'],
+        rules: {
+            'no-console': 'off'
+        }
     }
-}
+];
 ```
 
-Inside the `.babelrc.json` file, create a json object similar to the one below. Any Babel rules you want to add or overide are defined in the object.
+## Environment-Specific Benefits
 
+### 🖥️ **Node.js Config** (`/node`)
+- **Includes**: Node.js globals (`process`, `Buffer`, `__dirname`, etc.)
+- **Excludes**: Browser globals (`window`, `document`, `model`, `blur`, etc.)
+- **Best for**: CLI tools, servers, build scripts
+- **Prevents**: Browser global shadowing warnings
+
+### 🌐 **Browser Config** (`/browser`)  
+- **Includes**: Browser globals (`window`, `document`, `fetch`, etc.)
+- **Excludes**: Node.js globals (`process`, `Buffer`, `require`, etc.)
+- **Best for**: React apps, Vue apps, vanilla JS web apps
+- **Prevents**: Node.js global shadowing warnings
+
+### 🔄 **Universal Config** (default)
+- **Includes**: Both Node.js and browser globals
+- **Best for**: Full-stack applications, libraries, Electron apps
+- **Trade-off**: May have occasional global shadowing conflicts
+
+### TypeScript Support
+
+For TypeScript projects, you can extend the configuration:
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config';
+import tseslint from 'typescript-eslint';
+
+export default [
+    ...johnduganConfig,
+    ...tseslint.configs.recommended,
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        rules: {
+            // TypeScript-specific rules
+        }
+    }
+];
 ```
-{
-    "presets": ["@babel/preset-env"]
-}
-```
 
-**At this point, Prettier has been integrated with ESLint, and both ESLint and Prettier have your custom _global_ configuration!**
+## Migration from v2.x to v3.x
 
-### VS Code Settings for ESLint & Prettier
+### Breaking Changes
 
-I know that VS Code has shipped with a settings GUI for some time. But I've been on VS Code for a while, and still prefer updating the JSON settings object. You can reach by going to `Preferences > Settings`, then clicking the `{}` icon in the top right. Below are my settings relevant to ESLint.
+1. **ESLint Version**: Now requires ESLint 9.x (minimum 9.0.0)
+2. **Configuration Format**: Uses flat config instead of `.eslintrc.js`
+3. **Module Format**: Package is now ESM-first with CommonJS compatibility
+4. **Globals**: Updated to use the `globals` package for environment globals
+5. **Unused Variables**: Now ignores underscore-prefixed variables by default
 
-```
-{
-    "editor.codeActionsOnSave": {
-        "source.fixAll": true // applies to *all* linting & formatting providers
-        // "source.fixAll.eslint": true // applies only to eslint
-    },
-    "editor.formatOnPaste": true,
-    "editor.formatOnSave": true
-}
-```
+### Migration Steps
 
-## Per Project Setup
+1. **Update ESLint**: Upgrade to ESLint 9.x
+   ```bash
+   npm install --save-dev eslint@^9.0.0
+   ```
 
-I assume you're working on a project that has an exising `package.json` file. If not, `npm init`. Beyond that, the local/per project setup is very similar to the global setup.
+2. **Update Config Package**: Upgrade to v3.x
+   ```bash
+   npm install --save-dev @johndugan/eslint-config@^3.0.0
+   ```
 
-1. Install the NPM packages locally `npm install --save-dev eslint @johndugan/eslint-config @babel/core @babel/preset-env @babel/eslint-parser eslint-config-prettier eslint-plugin-prettier`
+3. **Install New Dependencies**:
+   ```bash
+   npm install --save-dev globals
+   ```
 
-2. Add your project-level ESLint configuration to a `.eslintrc.json` file in the project root. Use the example above as a blueprint.
+4. **Convert Configuration**: Replace your `.eslintrc.js` with `eslint.config.js`
 
-3. Add your project-level ESLint configuration to a `.babelrc.json` file in the project root. Use the example above as a blueprint.
+   **Old (v2.x)**:
+   ```javascript
+   // .eslintrc.js
+   module.exports = {
+       extends: ['@johndugan/eslint-config'],
+       rules: {
+           'no-console': 'off'
+       }
+   };
+   ```
 
-4. Add your project-level Prettier configuration to a `.prettierrc` file in the project root. Read about the [configuration file](https://prettier.io/docs/en/configuration.html) and [configuration options](https://prettier.io/docs/en/options.html) in the Prettier docs.
+   **New (v3.x)**:
+   ```javascript
+   // eslint.config.js
+   import johnduganConfig from '@johndugan/eslint-config';
+
+   export default [
+       ...johnduganConfig,
+       {
+           rules: {
+               'no-console': 'off'
+           }
+       }
+   ];
+   ```
+
+5. **Update Scripts**: ESLint 9.x automatically looks for `eslint.config.js`
+   ```json
+   {
+       "scripts": {
+           "lint": "eslint .",
+           "lint:fix": "eslint . --fix"
+       }
+   }
+   ```
+
+## Rules Overview
+
+This configuration extends `@eslint/js` recommended rules and adds custom rules for:
+
+- **Code Style**: Consistent spacing, quotes, semicolons
+- **Best Practices**: Avoiding common pitfalls and anti-patterns
+- **ES2022+ Features**: Support for modern JavaScript features
+- **Error Prevention**: Catching potential bugs and issues
+
+### Key Rule Changes in v3.x
+
+- `no-native-reassign` → `no-global-assign` (updated to non-deprecated rule)
+- `no-spaced-func` → `func-call-spacing` (updated to non-deprecated rule)
+- `no-unused-vars`: Now ignores underscore-prefixed variables
+- Enhanced globals for modern Node.js and browser APIs
+
+## Environment Support
+
+- **Node.js**: Full support with modern globals
+- **Browser**: Complete browser environment support
+- **ES2022**: Latest ECMAScript features including top-level await
+- **Babel**: Full transpilation support for cutting-edge features
+
+## Contributing
+
+Issues and pull requests are welcome! Please ensure your code follows the existing style and includes appropriate tests.
+
+## License
+
+MIT © John Dugan
+
+## Changelog
+
+### v3.0.0
+- **BREAKING**: Requires ESLint 9.x
+- **BREAKING**: Migrated to flat config format
+- **BREAKING**: Now ESM-first with CommonJS compatibility
+- Added support for modern Node.js globals
+- Updated deprecated rules to their modern equivalents
+- Enhanced unused variable handling with underscore prefix support
+- Improved TypeScript integration capabilities

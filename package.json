@@ -1,8 +1,35 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "2.4.7",
-    "description": "John Dugan's ESLint configuration.",
-    "main": "index.js",
+    "version": "3.0.0",
+    "description": "John Dugan's ESLint configuration for ESLint 9.x with flat config format.",
+    "main": "configs/index.js",
+    "type": "module",
+    "exports": {
+        ".": {
+            "import": "./configs/index.js",
+            "require": "./configs/index.cjs"
+        },
+        "./node": {
+            "import": "./configs/node.js",
+            "require": "./configs/node.cjs"
+        },
+        "./browser": {
+            "import": "./configs/browser.js",
+            "require": "./configs/browser.cjs"
+        }
+    },
+    "files": [
+        "configs/index.js",
+        "configs/index.cjs",
+        "configs/node.js",
+        "configs/node.cjs",
+        "configs/browser.js",
+        "configs/browser.cjs",
+        "configs/config.cjs",
+        "README.md",
+        "CHANGELOG.md",
+        "MIGRATION.md"
+    ],
     "scripts": {
         "lint": "eslint .",
         "lint:fix": "eslint --fix"
@@ -13,7 +40,9 @@
     },
     "keywords": [
         "eslint",
-        "eslintconfig"
+        "eslintconfig",
+        "flat-config",
+        "eslint9"
     ],
     "author": "John Dugan <john@john-dugan.com>",
     "license": "MIT",
@@ -22,9 +51,11 @@
     },
     "homepage": "https://github.com/johndugan/eslint-config#readme",
     "dependencies": {
-        "eslint": ">= 8",
-        "@babel/core": ">= 7",
-        "@babel/preset-env": ">= 7",
-        "@babel/eslint-parser": ">= 7"
+        "@eslint/js": "^9.31.0",
+        "eslint-plugin-import": "^2.32.0",
+        "globals": "^15.0.0"
+    },
+    "peerDependencies": {
+        "eslint": ">= 9.0.0"
     }
 }
