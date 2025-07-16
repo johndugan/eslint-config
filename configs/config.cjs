@@ -282,8 +282,8 @@ const createBrowserConfig = (js, globals) =>
 
 // Support both ESM and CommonJS
 module.exports = {
-    createConfig,
-    createNodeConfig,
-    createBrowserConfig,
-    rules
+    createConfig: createConfig,
+    createNodeConfig: createNodeConfig,
+    createBrowserConfig: createBrowserConfig,
+    rules: rules
 };
