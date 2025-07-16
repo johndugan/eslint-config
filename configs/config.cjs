@@ -115,7 +115,47 @@ const rules = {
     'wrap-iife': ['warn', 'outside'],
     'wrap-regex': 'warn',
     yoda: ['warn', 'never'],
-    // Import order and organization
+
+    // Modern JavaScript & Best Practices
+    'no-async-promise-executor': 'error',
+    'no-await-in-loop': 'warn',
+    'no-promise-executor-return': 'error',
+    'prefer-promise-reject-errors': 'error',
+    'prefer-const': 'error',
+    'prefer-destructuring': [
+        'warn',
+        {
+            array: false,
+            object: true
+        },
+        {
+            enforceForRenamedProperties: false
+        }
+    ],
+    'prefer-rest-params': 'error',
+    'prefer-object-spread': 'warn',
+
+    // Code Quality & Consistency
+    camelcase: ['error', {properties: 'never'}],
+    'array-bracket-spacing': ['warn', 'never'],
+    'object-curly-newline': ['warn', {consistent: true}],
+    'comma-style': ['warn', 'last'],
+    'no-lonely-if': 'warn',
+    'no-unmodified-loop-condition': 'error',
+    'no-useless-return': 'warn',
+    'no-var': 'error',
+
+    // Security & Error Prevention
+    'no-eval': 'error',
+    'no-implied-eval': 'error',
+    'no-duplicate-imports': 'error',
+    'no-useless-computed-key': 'warn',
+    'no-useless-constructor': 'warn',
+    'no-useless-rename': 'warn'
+};
+
+// Import order and organization rules
+const importRules = {
     'import/order': [
         'error',
         {
@@ -129,120 +169,121 @@ const rules = {
             ],
             'newlines-between': 'never'
         }
-    ]
+    ],
+
+    // Additional import rules (with safer defaults)
+    'import/no-duplicates': 'error',
+    'import/no-self-import': 'error',
+    'import/first': 'error',
+    'import/exports-last': 'error',
+    'import/no-anonymous-default-export': 'warn',
+
+    // Disable problematic rules that cause false positives
+    'import/no-unresolved': 'off' // Turn off as it causes issues with Node.js resolution
 };
 
-const createConfig = (js, globals) => [
+// Import plugin configuration with proper resolver
+const importPluginConfig = {
+    plugins: {
+        import: importPlugin
+    },
+    settings: {
+        'import/resolver': {
+            node: {
+                extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
+                moduleDirectory: ['node_modules', 'src']
+            }
+        }
+    }
+};
+
+// Shared global definitions to avoid duplication
+const javascriptLanguageGlobals = {
+    fetch: 'readonly',
+    URLSearchParams: 'readonly',
+    URL: 'readonly',
+    AbortController: 'readonly',
+    AbortSignal: 'readonly',
+    FormData: 'readonly',
+    Headers: 'readonly',
+    Request: 'readonly',
+    Response: 'readonly',
+    atob: 'readonly',
+    btoa: 'readonly',
+    structuredClone: 'readonly'
+};
+
+const nodeTimerGlobals = {
+    setTimeout: 'readonly',
+    clearTimeout: 'readonly',
+    setInterval: 'readonly',
+    clearInterval: 'readonly',
+    setImmediate: 'readonly',
+    clearImmediate: 'readonly'
+};
+
+// Helper function to create base configuration
+const createBaseConfig = (js, baseGlobals, additionalGlobals = {}) => [
     js.configs.recommended,
     {
-        plugins: {
-            import: importPlugin
-        },
+        ...importPluginConfig,
         languageOptions: {
             ecmaVersion: 'latest',
             sourceType: 'module',
             globals: {
-                ...globals.node,
-                ...globals.browser,
-                ...globals.es2021,
-                // Additional Node.js globals
-                setTimeout: 'readonly',
-                clearTimeout: 'readonly',
-                setInterval: 'readonly',
-                clearInterval: 'readonly',
-                setImmediate: 'readonly',
-                clearImmediate: 'readonly',
-                fetch: 'readonly',
-                URLSearchParams: 'readonly',
-                URL: 'readonly',
-                AbortController: 'readonly',
-                AbortSignal: 'readonly',
-                FormData: 'readonly',
-                Headers: 'readonly',
-                Request: 'readonly',
-                Response: 'readonly',
-                atob: 'readonly',
-                btoa: 'readonly',
-                structuredClone: 'readonly'
+                ...baseGlobals,
+                ...additionalGlobals
             }
         },
-        rules: rules
+        rules: {
+            ...rules,
+            ...importRules
+        }
     }
 ];
 
-const createNodeConfig = (js, globals) => [
-    js.configs.recommended,
-    {
-        plugins: {
-            import: importPlugin
+const createConfig = (js, globals) =>
+    createBaseConfig(
+        js,
+        {
+            ...globals.node,
+            ...globals.browser,
+            ...globals.es2021
         },
-        languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-            globals: {
-                ...globals.node,
-                ...globals.es2021,
-                // Node.js specific globals only
-                setTimeout: 'readonly',
-                clearTimeout: 'readonly',
-                setInterval: 'readonly',
-                clearInterval: 'readonly',
-                setImmediate: 'readonly',
-                clearImmediate: 'readonly',
-                fetch: 'readonly',
-                URLSearchParams: 'readonly',
-                URL: 'readonly',
-                AbortController: 'readonly',
-                AbortSignal: 'readonly',
-                FormData: 'readonly',
-                Headers: 'readonly',
-                Request: 'readonly',
-                Response: 'readonly',
-                atob: 'readonly',
-                btoa: 'readonly',
-                structuredClone: 'readonly'
-            }
-        },
-        rules: rules
-    }
-];
+        {
+            ...nodeTimerGlobals,
+            ...javascriptLanguageGlobals
+        }
+    );
 
-const createBrowserConfig = (js, globals) => [
-    js.configs.recommended,
-    {
-        plugins: {
-            import: importPlugin
+const createNodeConfig = (js, globals) =>
+    createBaseConfig(
+        js,
+        {
+            ...globals.node,
+            ...globals.es2021
         },
-        languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-            globals: {
-                ...globals.browser,
-                ...globals.es2021,
-                // Browser-specific globals only (no Node.js globals)
-                // Modern browser APIs
-                fetch: 'readonly',
-                URLSearchParams: 'readonly',
-                URL: 'readonly',
-                AbortController: 'readonly',
-                AbortSignal: 'readonly',
-                FormData: 'readonly',
-                Headers: 'readonly',
-                Request: 'readonly',
-                Response: 'readonly',
-                atob: 'readonly',
-                btoa: 'readonly',
-                structuredClone: 'readonly'
-            }
+        {
+            ...nodeTimerGlobals
+        }
+    );
+
+const createBrowserConfig = (js, globals) =>
+    createBaseConfig(
+        js,
+        {
+            ...globals.browser,
+            ...globals.es2021
         },
-        rules: rules
-    }
-];
+        {
+            ...javascriptLanguageGlobals
+        }
+    );
 
 // Support both ESM and CommonJS
 module.exports = {
-    createConfig: createConfig,
-    createNodeConfig: createNodeConfig,
-    createBrowserConfig: createBrowserConfig,
-    rules: rules
+    createConfig,
+    createNodeConfig,
+    createBrowserConfig,
+    rules
 };

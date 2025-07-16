@@ -10,7 +10,7 @@ John Dugan's ESLint configuration with flat config format support for ESLint 9.x
 - Provides proper globals for each environment without conflicts
 - Ignores underscore-prefixed unused variables
 - Uses ESLint's modern built-in parser (Espree) for maximum compatibility
-- Supports all ES2025+ features including top-level await
+- Supports all modern ECMAScript features including top-level await
 
 ## Features
 
@@ -24,13 +24,32 @@ John Dugan's ESLint configuration with flat config format support for ESLint 9.x
 
 ## Installation
 
+### Requirements
+
+- **Node.js**: >= 22.17.0
+- **ESLint**: >= 9.0.0
+
 ### For ESLint 9.x (v3.x)
 
 ```bash
 npm install --save-dev eslint@^9.0.0 @johndugan/eslint-config@^3.0.0
 ```
 
-No additional peer dependencies are required! This configuration uses ESLint's built-in parser which supports all modern JavaScript features.
+### Dependencies
+
+This configuration requires:
+- **ESLint 9.x**: The linting engine
+- **eslint-plugin-import**: For import order enforcement and validation (automatically installed)
+- **@eslint/js**: ESLint's recommended JavaScript rules (automatically installed)
+- **globals**: Environment-specific global variables (automatically installed)
+
+The import plugin provides:
+- Import order enforcement
+- Duplicate import detection
+- Import/export validation
+- Better module resolution
+
+No additional configuration is required! This package uses ESLint's built-in Espree parser which supports all modern JavaScript features.
 
 ## Usage
 
@@ -99,18 +118,21 @@ export default [
 ## Environment-Specific Benefits
 
 ### 🖥️ **Node.js Config** (`/node`)
+
 - **Includes**: Node.js globals (`process`, `Buffer`, `__dirname`, etc.)
 - **Excludes**: Browser globals (`window`, `document`, `model`, `blur`, etc.)
 - **Best for**: CLI tools, servers, build scripts
 - **Prevents**: Browser global shadowing warnings
 
-### 🌐 **Browser Config** (`/browser`)  
+### 🌐 **Browser Config** (`/browser`)
+
 - **Includes**: Browser globals (`window`, `document`, `fetch`, etc.)
 - **Excludes**: Node.js globals (`process`, `Buffer`, `require`, etc.)
 - **Best for**: React apps, Vue apps, vanilla JS web apps
 - **Prevents**: Node.js global shadowing warnings
 
 ### 🔄 **Universal Config** (default)
+
 - **Includes**: Both Node.js and browser globals
 - **Best for**: Full-stack applications, libraries, Electron apps
 - **Trade-off**: May have occasional global shadowing conflicts
@@ -148,57 +170,62 @@ export default [
 ### Migration Steps
 
 1. **Update ESLint**: Upgrade to ESLint 9.x
-   ```bash
-   npm install --save-dev eslint@^9.0.0
-   ```
+
+    ```bash
+    npm install --save-dev eslint@^9.0.0
+    ```
 
 2. **Update Config Package**: Upgrade to v3.x
-   ```bash
-   npm install --save-dev @johndugan/eslint-config@^3.0.0
-   ```
+
+    ```bash
+    npm install --save-dev @johndugan/eslint-config@^3.0.0
+    ```
 
 3. **Install New Dependencies**:
-   ```bash
-   npm install --save-dev globals
-   ```
+
+    ```bash
+    npm install --save-dev globals
+    ```
 
 4. **Convert Configuration**: Replace your `.eslintrc.js` with `eslint.config.js`
 
-   **Old (v2.x)**:
-   ```javascript
-   // .eslintrc.js
-   module.exports = {
-       extends: ['@johndugan/eslint-config'],
-       rules: {
-           'no-console': 'off'
-       }
-   };
-   ```
+    **Old (v2.x)**:
 
-   **New (v3.x)**:
-   ```javascript
-   // eslint.config.js
-   import johnduganConfig from '@johndugan/eslint-config';
+    ```javascript
+    // .eslintrc.js
+    module.exports = {
+        extends: ['@johndugan/eslint-config'],
+        rules: {
+            'no-console': 'off'
+        }
+    };
+    ```
 
-   export default [
-       ...johnduganConfig,
-       {
-           rules: {
-               'no-console': 'off'
-           }
-       }
-   ];
-   ```
+    **New (v3.x)**:
+
+    ```javascript
+    // eslint.config.js
+    import johnduganConfig from '@johndugan/eslint-config';
+
+    export default [
+        ...johnduganConfig,
+        {
+            rules: {
+                'no-console': 'off'
+            }
+        }
+    ];
+    ```
 
 5. **Update Scripts**: ESLint 9.x automatically looks for `eslint.config.js`
-   ```json
-   {
-       "scripts": {
-           "lint": "eslint .",
-           "lint:fix": "eslint . --fix"
-       }
-   }
-   ```
+    ```json
+    {
+        "scripts": {
+            "lint": "eslint .",
+            "lint:fix": "eslint . --fix"
+        }
+    }
+    ```
 
 ## Rules Overview
 
@@ -234,6 +261,7 @@ MIT © John Dugan
 ## Changelog
 
 ### v3.0.0
+
 - **BREAKING**: Requires ESLint 9.x
 - **BREAKING**: Migrated to flat config format
 - **BREAKING**: Now ESM-first with CommonJS compatibility

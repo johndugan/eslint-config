@@ -28,21 +28,24 @@ module.exports = {
         'comma-spacing': ['warn', {before: false, after: true}],
         'consistent-return': 'warn',
         'constructor-super': 'error',
-        'curly': ['error', 'all'],
+        curly: ['error', 'all'],
         'default-case': 'warn',
         'dot-notation': ['warn', {allowKeywords: true}],
         'eol-last': 'warn',
-        'eqeqeq': 'warn',
-        'indent': ['warn', 4, {SwitchCase: 1}],
+        eqeqeq: 'warn',
+        indent: ['warn', 4, {SwitchCase: 1}],
         'key-spacing': ['warn', {beforeColon: false, afterColon: true}],
         'keyword-spacing': ['warn', {before: true, after: true}],
         'linebreak-style': ['warn', 'unix'],
-        'new-cap': ['error', {
-            newIsCap: true,
-            capIsNew: true,
-            newIsCapExceptions: [],
-            capIsNewExceptions: []
-        }],
+        'new-cap': [
+            'error',
+            {
+                newIsCap: true,
+                capIsNew: true,
+                newIsCapExceptions: [],
+                capIsNewExceptions: []
+            }
+        ],
         'new-parens': 'error',
         'no-case-declarations': 'error',
         'no-class-assign': 'error',
@@ -74,11 +77,14 @@ module.exports = {
         'no-self-assign': 'warn',
         'no-self-compare': 'warn',
         'no-sequences': 'error',
-        'no-shadow': ['error', {
-            builtinGlobals: true,
-            hoist: 'all',
-            allow: ['$', 'Plugin', 'self']
-        }],
+        'no-shadow': [
+            'error',
+            {
+                builtinGlobals: true,
+                hoist: 'all',
+                allow: ['$', 'Plugin', 'self']
+            }
+        ],
         'no-shadow-restricted-names': 'error',
         'no-spaced-func': 'error',
         'no-this-before-super': 'warn',
@@ -89,7 +95,10 @@ module.exports = {
         'no-undefined': 'error',
         'no-unneeded-ternary': 'warn',
         'no-unexpected-multiline': 'error',
-        'no-unused-expressions': ['error', {allowShortCircuit: false, allowTernary: true}],
+        'no-unused-expressions': [
+            'error',
+            {allowShortCircuit: false, allowTernary: true}
+        ],
         'no-unused-vars': ['error', {vars: 'all', args: 'after-used'}],
         'no-use-before-define': ['error', 'nofunc'], // exception for function declarations
         'no-useless-call': 'warn',
@@ -101,13 +110,16 @@ module.exports = {
         'prefer-arrow-callback': 'warn',
         'prefer-spread': 'warn',
         'prefer-template': 'warn',
-        'quotes': ['warn', 'single', {avoidEscape: true}],
-        'radix': ['error', 'as-needed'],
+        quotes: ['warn', 'single', {avoidEscape: true}],
+        radix: ['error', 'as-needed'],
         'require-await': 'error',
         'require-yield': 'error',
-        'semi': ['error', 'always'],
+        semi: ['error', 'always'],
         'semi-spacing': ['warn', {before: false, after: true}],
-        'space-before-blocks': ['warn', {functions: 'always', keywords: 'always'}],
+        'space-before-blocks': [
+            'warn',
+            {functions: 'always', keywords: 'always'}
+        ],
         'space-before-function-paren': 'off', // Prettier handles this
         'space-in-parens': ['warn', 'never'],
         // "space-infix-ops": 'warn', // flags `'str'+'ing'`
@@ -116,6 +128,6 @@ module.exports = {
         'vars-on-top': 'warn',
         'wrap-iife': ['warn', 'outside'],
         'wrap-regex': 'warn',
-        'yoda': ['warn', 'never']
+        yoda: ['warn', 'never']
     }
 };
