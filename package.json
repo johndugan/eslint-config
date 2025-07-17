@@ -1,6 +1,6 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "3.0.0",
+    "version": "3.1.0",
     "description": "John Dugan's ESLint configuration for ESLint 9.x with flat config format.",
     "main": "configs/index.js",
     "type": "module",
@@ -34,10 +34,14 @@
         "MIGRATION.md"
     ],
     "scripts": {
-        "format": "prettier --check './**/*.{js,json}'",
-        "format:write": "prettier --write './**/*.{js,json}'",
-        "lint": "eslint .",
-        "lint:fix": "eslint --fix"
+        "format": "prettier --write 'configs/**/*.js' 'tests/**/*.js' '*.{js,json}'",
+        "format:check": "prettier --check 'configs/**/*.js' 'tests/**/*.js' '*.{js,json}'",
+        "lint": "eslint --fix configs tests",
+        "lint:check": "eslint configs tests",
+        "test": "vitest",
+        "test:run": "vitest run",
+        "test:watch": "vitest --watch",
+        "test:coverage": "vitest run --coverage"
     },
     "repository": {
         "type": "git",
@@ -64,7 +68,8 @@
         "globals": "^15.0.0"
     },
     "devDependencies": {
-        "prettier": "^3.6.2"
+        "prettier": "^3.6.2",
+        "vitest": "^3.2.4"
     },
     "peerDependencies": {
         "eslint": ">= 9.0.0"

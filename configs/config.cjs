@@ -1,25 +1,16 @@
 const importPlugin = require('eslint-plugin-import');
 
 // Shared rules configuration - works for both ESM and CommonJS
+// Prettier-optimized: formatting rules removed to avoid conflicts
 const rules = {
     'arrow-body-style': ['warn', 'as-needed'],
-    'arrow-parens': ['error', 'always'],
-    'arrow-spacing': ['warn', {before: true, after: true}],
     'block-scoped-var': 'error',
-    'brace-style': ['warn', '1tbs', {allowSingleLine: true}],
-    'comma-dangle': ['warn', 'never'],
-    'comma-spacing': ['warn', {before: false, after: true}],
     'consistent-return': 'warn',
     'constructor-super': 'error',
     curly: ['error', 'all'],
     'default-case': 'warn',
     'dot-notation': ['warn', {allowKeywords: true}],
-    'eol-last': 'warn',
     eqeqeq: 'warn',
-    indent: ['warn', 4, {SwitchCase: 1}],
-    'key-spacing': ['warn', {beforeColon: false, afterColon: true}],
-    'keyword-spacing': ['warn', {before: true, after: true}],
-    'linebreak-style': ['warn', 'unix'],
     'new-cap': [
         'error',
         {
@@ -42,12 +33,10 @@ const rules = {
     'no-empty-pattern': 'error',
     'no-extend-native': 'error',
     'no-extra-bind': 'error',
-    'no-extra-parens': ['warn', 'functions'],
     'no-fallthrough': 'warn',
     'no-iterator': 'error',
     'no-lone-blocks': 'error',
     'no-loop-func': 'warn',
-    'no-multi-spaces': 'warn',
     'no-multi-str': 'warn',
     'no-global-assign': 'error', // Updated from deprecated no-native-reassign
     'no-new-func': 'error',
@@ -68,15 +57,12 @@ const rules = {
         }
     ],
     'no-shadow-restricted-names': 'error',
-    'func-call-spacing': 'error', // Updated from deprecated no-spaced-func
     'no-this-before-super': 'warn',
     'no-throw-literal': 'error',
-    'no-trailing-spaces': 'warn',
     'no-undef': 'error',
     'no-undef-init': 'error',
     'no-undefined': 'error',
     'no-unneeded-ternary': 'warn',
-    'no-unexpected-multiline': 'error',
     'no-unused-expressions': [
         'error',
         {allowShortCircuit: false, allowTernary: true}
@@ -95,25 +81,15 @@ const rules = {
     'no-useless-concat': 'warn',
     'no-void': 'error',
     'no-with': 'error',
-    'object-curly-spacing': ['warn', 'never'],
     'object-shorthand': ['warn', 'never'],
     'prefer-arrow-callback': 'warn',
     'prefer-spread': 'warn',
     'prefer-template': 'warn',
-    quotes: ['warn', 'single', {avoidEscape: true}],
     radix: ['error', 'as-needed'],
     'require-await': 'error',
     'require-yield': 'error',
-    semi: ['error', 'always'],
-    'semi-spacing': ['warn', {before: false, after: true}],
-    'space-before-blocks': ['warn', {functions: 'always', keywords: 'always'}],
     'space-before-function-paren': 'off',
-    'space-in-parens': ['warn', 'never'],
-    'space-unary-ops': ['warn', {words: true, nonwords: false}],
-    'spaced-comment': ['warn', 'always', {exceptions: ['!']}],
     'vars-on-top': 'warn',
-    'wrap-iife': ['warn', 'outside'],
-    'wrap-regex': 'warn',
     yoda: ['warn', 'never'],
 
     // Modern JavaScript & Best Practices
@@ -137,9 +113,6 @@ const rules = {
 
     // Code Quality & Consistency
     camelcase: ['error', {properties: 'never'}],
-    'array-bracket-spacing': ['warn', 'never'],
-    'object-curly-newline': ['warn', {consistent: true}],
-    'comma-style': ['warn', 'last'],
     'no-lonely-if': 'warn',
     'no-unmodified-loop-condition': 'error',
     'no-useless-return': 'warn',
