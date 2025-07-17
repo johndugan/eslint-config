@@ -257,15 +257,33 @@ Issues and pull requests are welcome! Please ensure your code follows the existi
 ## License
 
 MIT © John Dugan
+## Development
+
+### Testing
+
+This package includes comprehensive tests to ensure configuration integrity:
+
+```bash
+# Run tests
+npm test
+
+# Run tests once
+npm run test:run
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+### Linting & Formatting
+
+```bash
+# Lint the package itself
+npm run lint
+
+# Format code with Prettier
+npm run format
+```
 
 ## Changelog
 
-### v3.0.0
-
-- **BREAKING**: Requires ESLint 9.x
-- **BREAKING**: Migrated to flat config format
-- **BREAKING**: Now ESM-first with CommonJS compatibility
-- Added support for modern Node.js globals
-- Updated deprecated rules to their modern equivalents
-- Enhanced unused variable handling with underscore prefix support
-- Improved TypeScript integration capabilities
+See [CHANGELOG.md](CHANGELOG.md) for version history and detailed release notes.
