@@ -1,4 +1,5 @@
 const importPlugin = require('eslint-plugin-import');
+const perfectionistPlugin = require('eslint-plugin-perfectionist');
 
 // Shared rules configuration - works for both ESM and CommonJS
 // Prettier-optimized: formatting rules removed to avoid conflicts
@@ -127,20 +128,60 @@ const rules = {
     'no-useless-rename': 'warn'
 };
 
-// Import order and organization rules
+// Import/Export order and organization rules with perfectionist
 const importRules = {
-    'import/order': [
+    // Perfectionist import sorting (replaces import/order)
+    'perfectionist/sort-imports': [
         'error',
         {
+            type: 'natural',
+            order: 'asc',
+            ignoreCase: true,
+            newlinesBetween: 0, // No blank lines between groups per user request
             groups: [
-                'builtin', // Node.js built-ins
-                'external', // npm packages
-                'internal', // Internal modules
-                'parent', // ../
-                'sibling', // ./
-                'index' // ./index.js
+                ['type-builtin', 'value-builtin'],                // node:fs, node:path...
+                ['type-external', 'value-external'],              // npm packages
+                ['type-internal', 'value-internal'],              // aliases
+                ['type-parent', 'type-sibling', 'type-index'],    // ../ ./ index
+                ['value-parent', 'value-sibling', 'value-index'],
+                'unknown'
             ],
-            'newlines-between': 'never'
+            internalPattern: ['^@/', '^src/']                   // adjust to your aliases
+        }
+    ],
+    'perfectionist/sort-named-imports': [
+        'error',
+        {
+            type: 'natural',
+            order: 'asc',
+            ignoreCase: true
+        }
+    ],
+
+    // Perfectionist export sorting
+    'perfectionist/sort-named-exports': [
+        'error',
+        {
+            type: 'natural',
+            order: 'asc',
+            ignoreCase: true
+        }
+    ],
+
+    // Ban inline exports - enforce export { ... } at EOF only
+    'no-restricted-syntax': [
+        'error',
+        {
+            selector: 'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]',
+            message: 'Do not export function declarations. Declare locally and export at EOF via `export { … }`.'
+        },
+        {
+            selector: 'ExportNamedDeclaration[declaration.type="VariableDeclaration"]',
+            message: 'Do not export variables inline. Declare locally and export at EOF via `export { … }`.'
+        },
+        {
+            selector: 'ExportNamedDeclaration[declaration.type="ClassDeclaration"]',
+            message: 'Do not export classes inline. Export at EOF via `export { … }`.'
         }
     ],
 
@@ -155,10 +196,11 @@ const importRules = {
     'import/no-unresolved': 'off' // Turn off as it causes issues with Node.js resolution
 };
 
-// Import plugin configuration with proper resolver
+// Import and perfectionist plugin configuration with proper resolver
 const importPluginConfig = {
     plugins: {
-        import: importPlugin
+        import: importPlugin,
+        perfectionist: perfectionistPlugin
     },
     settings: {
         'import/resolver': {

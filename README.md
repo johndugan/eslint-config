@@ -21,6 +21,8 @@ John Dugan's ESLint configuration with flat config format support for ESLint 9.x
 - **Flexible Unused Variables**: Ignores underscore-prefixed variables
 - **Modern JavaScript**: Full support for latest ECMAScript features
 - **TypeScript Ready**: Can be easily extended for TypeScript projects
+- **🆕 Advanced Import/Export Organization**: Comprehensive sorting and standardization
+- **🚫 Inline Export Restrictions**: Enforces clean `export { ... }` statements at EOF only
 
 ## Installation
 
@@ -39,15 +41,18 @@ npm install --save-dev eslint@^9.0.0 @johndugan/eslint-config@^3.0.0
 
 This configuration requires:
 - **ESLint 9.x**: The linting engine
-- **eslint-plugin-import**: For import order enforcement and validation (automatically installed)
+- **eslint-plugin-import**: For import/export validation and placement (automatically installed)
+- **eslint-plugin-perfectionist**: For advanced import/export sorting (automatically installed)
 - **@eslint/js**: ESLint's recommended JavaScript rules (automatically installed)
 - **globals**: Environment-specific global variables (automatically installed)
 
-The import plugin provides:
-- Import order enforcement
-- Duplicate import detection
-- Import/export validation
-- Better module resolution
+**Import/Export Organization Features:**
+- **Import grouping**: Node built-ins → external packages → internal modules → relative imports
+- **Alphabetical sorting**: Within each import group, case-insensitive natural ordering
+- **No blank lines**: Clean, compact import sections without spacing between groups
+- **Named import sorting**: Alphabetizes destructured imports like `{ a, b, c }`
+- **Export restrictions**: Bans inline exports (`export function`, `export const`) - enforces `export { ... }` at EOF only
+- **Export sorting**: Alphabetizes names in export statements for consistency
 
 No additional configuration is required! This package uses ESLint's built-in Espree parser which supports all modern JavaScript features.
 
@@ -235,6 +240,8 @@ This configuration extends `@eslint/js` recommended rules and adds custom rules 
 - **Best Practices**: Avoiding common pitfalls and anti-patterns
 - **ES2022+ Features**: Support for modern JavaScript features
 - **Error Prevention**: Catching potential bugs and issues
+- **Import/Export Organization**: Comprehensive import grouping, sorting, and export standardization
+- **Module Structure**: Enforced clean export patterns with end-of-file export statements
 
 ### Key Rule Changes in v3.x
 
@@ -242,6 +249,14 @@ This configuration extends `@eslint/js` recommended rules and adds custom rules 
 - `no-spaced-func` → `func-call-spacing` (updated to non-deprecated rule)
 - `no-unused-vars`: Now ignores underscore-prefixed variables
 - Enhanced globals for modern Node.js and browser APIs
+
+### New in v3.2.0: Advanced Import/Export Control
+
+- **eslint-plugin-perfectionist**: Replaces basic import ordering with comprehensive sorting
+- **Import grouping**: Node built-ins → external → internal → relative (no blank lines between)
+- **Export restrictions**: `no-restricted-syntax` bans inline exports (`export function`, `export const`)
+- **Export placement**: `import/exports-last` enforces exports at end of file only
+- **Alphabetical sorting**: All import/export names automatically sorted for consistency
 
 ## Environment Support
 

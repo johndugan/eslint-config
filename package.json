@@ -1,6 +1,6 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "3.1.0",
+    "version": "3.2.0",
     "description": "John Dugan's ESLint configuration for ESLint 9.x with flat config format.",
     "main": "configs/index.js",
     "type": "module",
@@ -68,6 +68,7 @@
         "globals": "^15.0.0"
     },
     "devDependencies": {
+        "eslint-plugin-perfectionist": "^4.15.0",
         "prettier": "^3.6.2",
         "vitest": "^3.2.4"
     },

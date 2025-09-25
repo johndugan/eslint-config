@@ -1,6 +1,6 @@
-import {describe, it, expect} from 'vitest';
 import js from '@eslint/js';
 import globals from 'globals';
+import {describe, expect, it} from 'vitest';
 import {createConfig} from '../configs/config.cjs';
 
 describe('ESLint Integration Tests', () => {
@@ -20,13 +20,18 @@ describe('ESLint Integration Tests', () => {
             expect(config[1]).toHaveProperty('plugins');
         });
 
-        it('should have import plugin configured', () => {
+        it('should have import and perfectionist plugins configured', () => {
             const config = createConfig(js, globals);
             const mainConfig = config[1];
 
             expect(mainConfig.plugins).toHaveProperty('import');
-            expect(mainConfig.rules).toHaveProperty('import/order');
+            expect(mainConfig.plugins).toHaveProperty('perfectionist');
+            expect(mainConfig.rules).toHaveProperty('perfectionist/sort-imports');
+            expect(mainConfig.rules).toHaveProperty('perfectionist/sort-named-imports');
+            expect(mainConfig.rules).toHaveProperty('perfectionist/sort-named-exports');
             expect(mainConfig.rules).toHaveProperty('import/no-duplicates');
+            expect(mainConfig.rules).toHaveProperty('import/exports-last');
+            expect(mainConfig.rules).toHaveProperty('no-restricted-syntax');
         });
 
         it('should have proper language options', () => {

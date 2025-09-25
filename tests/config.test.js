@@ -1,10 +1,10 @@
-import {describe, it, expect} from 'vitest';
 import js from '@eslint/js';
 import globals from 'globals';
+import {describe, expect, it} from 'vitest';
 import {
+    createBrowserConfig,
     createConfig,
-    createNodeConfig,
-    createBrowserConfig
+    createNodeConfig
 } from '../configs/config.cjs';
 
 describe('ESLint Config Tests', () => {
