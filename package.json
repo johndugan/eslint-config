@@ -1,6 +1,6 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "3.2.1",
+    "version": "3.2.2",
     "description": "John Dugan's ESLint configuration for ESLint 9.x with flat config format.",
     "main": "configs/index.js",
     "type": "module",
@@ -12,6 +12,10 @@
             "import": "./configs/index.js",
             "require": "./configs/index.cjs"
         },
+        "./universal": {
+            "import": "./configs/index.js",
+            "require": "./configs/index.cjs"
+        },
         "./node": {
             "import": "./configs/node.js",
             "require": "./configs/node.cjs"
@@ -19,6 +23,10 @@
         "./browser": {
             "import": "./configs/browser.js",
             "require": "./configs/browser.cjs"
+        },
+        "./factory": {
+            "import": "./configs/factory.js",
+            "require": "./configs/factory.cjs"
         }
     },
     "files": [
@@ -28,6 +36,8 @@
         "configs/node.cjs",
         "configs/browser.js",
         "configs/browser.cjs",
+        "configs/factory.js",
+        "configs/factory.cjs",
         "configs/config.cjs",
         "README.md",
         "CHANGELOG.md",

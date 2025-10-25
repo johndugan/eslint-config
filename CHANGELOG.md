@@ -5,7 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.1.0] - 2025-07-17
+## [3.2.2] - 2025-10-25
+
+### Added
+- Explicit universal alias via `@johndugan/eslint-config/universal` for clearer intent
+- Factory helpers export (`/factory`) exposing configurable builders for all presets
+- Support for customizing import alias patterns and module resolution directories via factory options
+- Integration tests with real fixture files covering inline export violations and import sorting
+- JSDoc type definitions throughout config.cjs for better IDE support
+
+### Changed
+- All config factory functions now accept optional `options` parameter for customization
+- Import rules and plugin configuration dynamically created based on provided options
+- Test suite expanded from 5 to 8 tests with new lint behavior validation
+- ESLint 9.x flat config ignores pattern now properly excludes test fixtures
+
+## [3.2.1] - 2025-10-25
 
 ### Added
 - Comprehensive test suite with Vitest (19 tests covering config integrity)

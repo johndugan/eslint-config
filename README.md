@@ -23,6 +23,7 @@ John Dugan's ESLint configuration with flat config format support for ESLint 9.x
 - **TypeScript Ready**: Can be easily extended for TypeScript projects
 - **🆕 Advanced Import/Export Organization**: Comprehensive sorting and standardization
 - **🚫 Inline Export Restrictions**: Enforces clean `export { ... }` statements at EOF only
+- **Configurable Import Aliases**: Override resolver directories and alias patterns via the factory helpers
 
 ## Installation
 
@@ -64,6 +65,16 @@ For projects that run in both Node.js and browser environments:
 
 ```javascript
 import johnduganConfig from '@johndugan/eslint-config';
+
+export default johnduganConfig;
+```
+
+### Universal Configuration (Explicit)
+
+You can also explicitly import the universal config for clarity:
+
+```javascript
+import johnduganConfig from '@johndugan/eslint-config/universal';
 
 export default johnduganConfig;
 ```
@@ -120,6 +131,21 @@ export default [
 ];
 ```
 
+### Adjusting Import Aliases & Resolver Defaults
+
+Use the factory helpers when you need to tweak the default import grouping or module resolution:
+
+```javascript
+import {buildUniversalConfig} from '@johndugan/eslint-config/factory';
+
+export default buildUniversalConfig({
+    internalPattern: ['^@app/', '^~/'],
+    moduleDirectory: ['node_modules', 'app']
+});
+```
+
+Advanced setups can import the lower-level `create*` functions from the same factory entry to compose configs alongside custom `@eslint/js` presets.
+
 ## Environment-Specific Benefits
 
 ### 🖥️ **Node.js Config** (`/node`)
@@ -136,13 +162,16 @@ export default [
 - **Best for**: React apps, Vue apps, vanilla JS web apps
 - **Prevents**: Node.js global shadowing warnings
 
-### 🔄 **Universal Config** (default)
+### 🔄 **Universal Config** (default or `/universal`)
 
 - **Includes**: Both Node.js and browser globals
-- **Best for**: Full-stack applications, libraries, Electron apps
+- **Best for**: Full-stack applications, libraries, Electron apps, universal packages
 - **Trade-off**: May have occasional global shadowing conflicts
+- **Aliases**: Available as default `@johndugan/eslint-config` or explicit `@johndugan/eslint-config/universal`
 
 ### TypeScript Support
+
+```
 
 For TypeScript projects, you can extend the configuration:
 

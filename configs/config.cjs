@@ -1,6 +1,24 @@
 const importPlugin = require('eslint-plugin-import');
 const perfectionistPlugin = require('eslint-plugin-perfectionist');
 
+/**
+ * @typedef {import('eslint').Linter.Config} FlatConfig
+ * @typedef {Record<string, 'readonly' | 'writable' | boolean>} GlobalConfig
+ * @typedef {{internalPattern?: string[] | undefined, moduleDirectory?: string[] | undefined}} ImportCustomizationOptions
+ */
+
+const DEFAULT_INTERNAL_PATTERN = ['^@/', '^src/'];
+const DEFAULT_MODULE_DIRECTORIES = ['node_modules', 'src'];
+
+const resolveImportOptions = (options = {}) => ({
+    internalPattern: Array.isArray(options.internalPattern)
+        ? [...options.internalPattern]
+        : [...DEFAULT_INTERNAL_PATTERN],
+    moduleDirectory: Array.isArray(options.moduleDirectory)
+        ? [...options.moduleDirectory]
+        : [...DEFAULT_MODULE_DIRECTORIES]
+});
+
 // Shared rules configuration - works for both ESM and CommonJS
 // Prettier-optimized: formatting rules removed to avoid conflicts
 const rules = {
@@ -129,7 +147,7 @@ const rules = {
 };
 
 // Import/Export order and organization rules with perfectionist
-const importRules = {
+const createImportRules = (importOptions) => ({
     // Perfectionist import sorting (replaces import/order)
     'perfectionist/sort-imports': [
         'error',
@@ -139,14 +157,14 @@ const importRules = {
             ignoreCase: true,
             newlinesBetween: 0, // No blank lines between groups per user request
             groups: [
-                ['type-builtin', 'value-builtin'],                // node:fs, node:path...
-                ['type-external', 'value-external'],              // npm packages
-                ['type-internal', 'value-internal'],              // aliases
-                ['type-parent', 'type-sibling', 'type-index'],    // ../ ./ index
+                ['type-builtin', 'value-builtin'], // node:fs, node:path...
+                ['type-external', 'value-external'], // npm packages
+                ['type-internal', 'value-internal'], // aliases
+                ['type-parent', 'type-sibling', 'type-index'], // ../ ./ index
                 ['value-parent', 'value-sibling', 'value-index'],
                 'unknown'
             ],
-            internalPattern: ['^@/', '^src/']                   // adjust to your aliases
+            internalPattern: importOptions.internalPattern // adjust to your aliases
         }
     ],
     'perfectionist/sort-named-imports': [
@@ -172,16 +190,22 @@ const importRules = {
     'no-restricted-syntax': [
         'error',
         {
-            selector: 'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]',
-            message: 'Do not export function declarations. Declare locally and export at EOF via `export { … }`.'
+            selector:
+                'ExportNamedDeclaration[declaration.type="FunctionDeclaration"]',
+            message:
+                'Do not export function declarations. Declare locally and export at EOF via `export { … }`.'
         },
         {
-            selector: 'ExportNamedDeclaration[declaration.type="VariableDeclaration"]',
-            message: 'Do not export variables inline. Declare locally and export at EOF via `export { … }`.'
+            selector:
+                'ExportNamedDeclaration[declaration.type="VariableDeclaration"]',
+            message:
+                'Do not export variables inline. Declare locally and export at EOF via `export { … }`.'
         },
         {
-            selector: 'ExportNamedDeclaration[declaration.type="ClassDeclaration"]',
-            message: 'Do not export classes inline. Export at EOF via `export { … }`.'
+            selector:
+                'ExportNamedDeclaration[declaration.type="ClassDeclaration"]',
+            message:
+                'Do not export classes inline. Export at EOF via `export { … }`.'
         }
     ],
 
@@ -194,10 +218,10 @@ const importRules = {
 
     // Disable problematic rules that cause false positives
     'import/no-unresolved': 'off' // Turn off as it causes issues with Node.js resolution
-};
+});
 
 // Import and perfectionist plugin configuration with proper resolver
-const importPluginConfig = {
+const createImportPluginConfig = (importOptions) => ({
     plugins: {
         import: importPlugin,
         perfectionist: perfectionistPlugin
@@ -206,11 +230,11 @@ const importPluginConfig = {
         'import/resolver': {
             node: {
                 extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
-                moduleDirectory: ['node_modules', 'src']
+                moduleDirectory: importOptions.moduleDirectory
             }
         }
     }
-};
+});
 
 // Shared global definitions to avoid duplication
 const javascriptLanguageGlobals = {
@@ -228,36 +252,61 @@ const javascriptLanguageGlobals = {
     structuredClone: 'readonly'
 };
 
-const nodeTimerGlobals = {
+const sharedTimerGlobals = {
     setTimeout: 'readonly',
     clearTimeout: 'readonly',
     setInterval: 'readonly',
-    clearInterval: 'readonly',
+    clearInterval: 'readonly'
+};
+
+const nodeTimerGlobals = {
+    ...sharedTimerGlobals,
     setImmediate: 'readonly',
     clearImmediate: 'readonly'
 };
 
 // Helper function to create base configuration
-const createBaseConfig = (js, baseGlobals, additionalGlobals = {}) => [
-    js.configs.recommended,
-    {
-        ...importPluginConfig,
-        languageOptions: {
-            ecmaVersion: 'latest',
-            sourceType: 'module',
-            globals: {
-                ...baseGlobals,
-                ...additionalGlobals
-            }
-        },
-        rules: {
-            ...rules,
-            ...importRules
-        }
-    }
-];
+/**
+ * Creates a reusable Flat config scaffold with shared plugins, language options, and rules.
+ * @param {typeof import('@eslint/js')} js
+ * @param {GlobalConfig} baseGlobals
+ * @param {GlobalConfig} [additionalGlobals]
+ * @param {ImportCustomizationOptions} [options]
+ * @returns {FlatConfig[]}
+ */
+const createBaseConfig = (js, baseGlobals, additionalGlobals = {}, options) => {
+    const importOptions = resolveImportOptions(options);
+    const importPluginConfig = createImportPluginConfig(importOptions);
+    const importRules = createImportRules(importOptions);
 
-const createConfig = (js, globals) =>
+    return [
+        js.configs.recommended,
+        {
+            ...importPluginConfig,
+            languageOptions: {
+                ecmaVersion: 'latest',
+                sourceType: 'module',
+                globals: {
+                    ...baseGlobals,
+                    ...additionalGlobals
+                }
+            },
+            rules: {
+                ...rules,
+                ...importRules
+            }
+        }
+    ];
+};
+
+/**
+ * Builds the universal (Node + browser) preset.
+ * @param {typeof import('@eslint/js')} js
+ * @param {{node: GlobalConfig, browser: GlobalConfig, es2021: GlobalConfig}} globals
+ * @param {ImportCustomizationOptions} [options]
+ * @returns {FlatConfig[]}
+ */
+const createConfig = (js, globals, options) =>
     createBaseConfig(
         js,
         {
@@ -268,10 +317,38 @@ const createConfig = (js, globals) =>
         {
             ...nodeTimerGlobals,
             ...javascriptLanguageGlobals
-        }
+        },
+        options
     );
 
-const createNodeConfig = (js, globals) =>
+/**
+ * Builds a strict universal preset without Node.js or browser-specific globals.
+ * @param {typeof import('@eslint/js')} js
+ * @param {{es2021: GlobalConfig}} globals
+ * @param {ImportCustomizationOptions} [options]
+ * @returns {FlatConfig[]}
+ */
+const createStrictUniversalConfig = (js, globals, options) =>
+    createBaseConfig(
+        js,
+        {
+            ...globals.es2021
+        },
+        {
+            ...sharedTimerGlobals,
+            ...javascriptLanguageGlobals
+        },
+        options
+    );
+
+/**
+ * Builds the Node.js only preset.
+ * @param {typeof import('@eslint/js')} js
+ * @param {{node: GlobalConfig, es2021: GlobalConfig}} globals
+ * @param {ImportCustomizationOptions} [options]
+ * @returns {FlatConfig[]}
+ */
+const createNodeConfig = (js, globals, options) =>
     createBaseConfig(
         js,
         {
@@ -280,10 +357,18 @@ const createNodeConfig = (js, globals) =>
         },
         {
             ...nodeTimerGlobals
-        }
+        },
+        options
     );
 
-const createBrowserConfig = (js, globals) =>
+/**
+ * Builds the browser only preset.
+ * @param {typeof import('@eslint/js')} js
+ * @param {{browser: GlobalConfig, es2021: GlobalConfig}} globals
+ * @param {ImportCustomizationOptions} [options]
+ * @returns {FlatConfig[]}
+ */
+const createBrowserConfig = (js, globals, options) =>
     createBaseConfig(
         js,
         {
@@ -292,12 +377,14 @@ const createBrowserConfig = (js, globals) =>
         },
         {
             ...javascriptLanguageGlobals
-        }
+        },
+        options
     );
 
 // Support both ESM and CommonJS
 module.exports = {
     createConfig: createConfig,
+    createStrictUniversalConfig: createStrictUniversalConfig,
     createNodeConfig: createNodeConfig,
     createBrowserConfig: createBrowserConfig,
     rules: rules
