@@ -42,7 +42,7 @@ const rules = {
     'new-parens': 'error',
     'no-case-declarations': 'error',
     'no-class-assign': 'error',
-    'no-confusing-arrow': ['error', {allowParens: true}],
+    'no-confusing-arrow': 'off', // Prettier handles arrow function formatting
     'no-console': 'warn',
     'no-const-assign': 'error',
     'no-constant-condition': 'error',

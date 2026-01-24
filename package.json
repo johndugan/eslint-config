@@ -1,6 +1,6 @@
 {
     "name": "@johndugan/eslint-config",
-    "version": "3.2.2",
+    "version": "3.2.3",
     "description": "John Dugan's ESLint configuration for ESLint 9.x with flat config format.",
     "main": "configs/index.js",
     "type": "module",
