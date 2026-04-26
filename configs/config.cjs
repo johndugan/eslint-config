@@ -57,6 +57,7 @@ const rules = {
     'no-lone-blocks': 'error',
     'no-loop-func': 'warn',
     'no-multi-str': 'warn',
+    'no-nested-ternary': 'error',
     'no-global-assign': 'error', // Updated from deprecated no-native-reassign
     'no-new-func': 'error',
     'no-new-wrappers': 'error',

@@ -116,5 +116,14 @@ describe('ESLint Config Tests', () => {
                 'never'
             ]);
         });
+
+        it('should error on nested ternaries', () => {
+            const config = createConfig(js, globals);
+            const mainConfig = config.find(
+                (c) => c.rules && c.rules['no-nested-ternary']
+            );
+
+            expect(mainConfig.rules['no-nested-ternary']).toBe('error');
+        });
     });
 });
